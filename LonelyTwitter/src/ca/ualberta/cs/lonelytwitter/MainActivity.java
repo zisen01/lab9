@@ -2,12 +2,6 @@ package ca.ualberta.cs.lonelytwitter;
 
 import java.util.List;
 
-import ca.ualberta.cs.lonelytwitter.data.ImportantTweet;
-import ca.ualberta.cs.lonelytwitter.data.LonelyTweet;
-import ca.ualberta.cs.lonelytwitter.data.NormalLonelyTweet;
-import ca.ualberta.cs.lonelytwitter.manager.TweetsFileManager;
-import ca.ualberta.cs.lonelytwitter.manager.TweetsManager;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +12,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private static final String IMPORTANT_IDENTIFIER = "*";
 	private EditText bodyText;
 	private ListView oldTweetsList;
 
-	private List<LonelyTweet> tweets;
-	private ArrayAdapter<LonelyTweet> adapter;
-	private TweetsManager tweetsProvider;
+	private List<NormalLonelyTweet> tweets;
+	private ArrayAdapter<NormalLonelyTweet> adapter;
+	private TweetsFileManager tweetsProvider;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,50 +33,39 @@ public class MainActivity extends Activity {
 		super.onStart();
 
 		tweetsProvider = new TweetsFileManager(this);
-		setTweets(tweetsProvider.loadTweets());
-		adapter = new ArrayAdapter<LonelyTweet>(this, R.layout.list_item,
-				getTweets());
+		tweets = tweetsProvider.loadTweets();
+		adapter = new ArrayAdapter<NormalLonelyTweet>(this, R.layout.list_item,
+				tweets);
 		oldTweetsList.setAdapter(adapter);
 	}
 
 	public void save(View v) {
 		String text = bodyText.getText().toString();
-		LonelyTweet tweet = createTweet(text);
+
+		NormalLonelyTweet tweet;
+
+		//if (text.contains("*")) {
+		//	tweet = new ImportantTweet(text);
+		//} else {
+			tweet = new NormalLonelyTweet(text);
+		//}
 
 		if (tweet.isValid()) {
-			getTweets().add(tweet);
+			tweets.add(tweet);
 			adapter.notifyDataSetChanged();
 
 			bodyText.setText("");
-			tweetsProvider.saveTweets(getTweets());
+			tweetsProvider.saveTweets(tweets);
 		} else {
-			Toast.makeText(this, R.string.invalid_tweet, Toast.LENGTH_SHORT)
+			Toast.makeText(this, "Invalid tweet", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
 
-	private LonelyTweet createTweet(String text) {
-		LonelyTweet tweet;
-
-		if (text.contains(IMPORTANT_IDENTIFIER)) {
-			tweet = new ImportantTweet(text);
-		} else {
-			tweet = new NormalLonelyTweet(text);
-		}
-		return tweet;
-	}
-
 	public void clear(View v) {
-		getTweets().clear();
+		tweets.clear();
 		adapter.notifyDataSetChanged();
-		tweetsProvider.saveTweets(getTweets());
+		tweetsProvider.saveTweets(tweets);
 	}
 
-	private List<LonelyTweet> getTweets() {
-		return tweets;
-	}
-
-	private void setTweets(List<LonelyTweet> tweets) {
-		this.tweets = tweets;
-	}
 }

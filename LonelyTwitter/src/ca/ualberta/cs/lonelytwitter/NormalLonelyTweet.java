@@ -1,24 +1,21 @@
-package ca.ualberta.cs.lonelytwitter.data;
+package ca.ualberta.cs.lonelytwitter;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class LonelyTweet implements Serializable {
+public class NormalLonelyTweet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	protected Date tweetDate;
 	protected String tweetBody;
-	protected int maxNumChars;
 
-	public LonelyTweet() {
+	public NormalLonelyTweet() {
 	}
 
-	public LonelyTweet(String text) {
+	public NormalLonelyTweet(String text) {
 		this.tweetDate = new Date();
 		this.tweetBody = text;
-		this.maxNumChars = 10;
 	}
 
 	public Date getTweetDate() {
@@ -27,6 +24,10 @@ public abstract class LonelyTweet implements Serializable {
 
 	public void setTweetDate(Date tweetDate) {
 		this.tweetDate = tweetDate;
+	}
+
+	public String getTweetBody() {
+		return tweetBody;
 	}
 
 	public void setTweetBody(String tweetBody) {
@@ -45,11 +46,16 @@ public abstract class LonelyTweet implements Serializable {
 	}
 
 	public boolean isValid() {
-		if (tweetBody.trim().length() == 0 || tweetBody.trim().length() > maxNumChars) {
+		if (tweetBody.trim().length() == 0
+				|| tweetBody.trim().length() > 10) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return getTweetDate() + " | " + getTweetBody();
+	}
 }
