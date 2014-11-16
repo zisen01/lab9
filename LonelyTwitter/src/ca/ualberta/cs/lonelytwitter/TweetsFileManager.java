@@ -9,30 +9,37 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ualberta.cs.lonelytwitter.data.LonelyTweet;
+
 
 import android.content.Context;
 import android.util.Log;
 
-public class TweetsFileManager {
+public class TweetsFileManager implements TweetsManager {
 
+	private static final String FILENAME = "file.sav";
 	private Context ctx;
 
 	public TweetsFileManager(Context ctx) {
 		this.ctx = ctx;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.ualberta.cs.lonelytwitter.TweetsManager#loadTweets()
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<NormalLonelyTweet> loadTweets() {
-		List<NormalLonelyTweet> tweets = new ArrayList<NormalLonelyTweet>();
+	public List<LonelyTweet> loadTweets() {
+		List<LonelyTweet> tweets = new ArrayList<LonelyTweet>();
 
 		try {
-			FileInputStream fis = ctx.openFileInput("file.sav");
+			FileInputStream fis = ctx.openFileInput(FILENAME);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
 			Object o = ois.readObject();
 
 			if (o instanceof ArrayList) {
-				tweets = (ArrayList<NormalLonelyTweet>) o;
+				tweets = (ArrayList<LonelyTweet>) o;
 			} else {
 				Log.i("LonelyTwitter", "Error casting");
 			}
@@ -48,9 +55,13 @@ public class TweetsFileManager {
 		return tweets;
 	}
 
-	public void saveTweets(List<NormalLonelyTweet> tweets) {
+	/* (non-Javadoc)
+	 * @see ca.ualberta.cs.lonelytwitter.TweetsManager#saveTweets(java.util.List)
+	 */
+	@Override
+	public void saveTweets(List<LonelyTweet> tweets) {
 		try {
-			FileOutputStream fos = ctx.openFileOutput("file.sav", 0);
+			FileOutputStream fos = ctx.openFileOutput(FILENAME, 0);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 			oos.writeObject(tweets);
