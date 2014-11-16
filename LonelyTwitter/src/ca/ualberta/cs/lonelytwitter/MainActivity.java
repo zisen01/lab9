@@ -58,7 +58,8 @@ public class MainActivity extends Activity {
 			bodyText.setText("");
 			tweetsProvider.saveTweets(getTweets());
 		} else {
-			Toast.makeText(this, R.string.invalid_tweet, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.invalid_tweet, Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
