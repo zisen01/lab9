@@ -44,12 +44,18 @@ public class LonelyTwitterActivity extends Activity {
 
 		NormalLonelyTweet tweet;
 
-		//if (text.contains("*")) {
-		//	tweet = new ImportantTweet(text);
-		//} else {
-			tweet = new NormalLonelyTweet(text);
-		//}
+		tweet = new NormalLonelyTweet(text);
 
+//		String text = bodyText.getText().toString();
+//
+//		LonelyTweet tweet;
+//
+//		if (text.contains("*")) {
+//			tweet = new ImportantLonelyTweet(text);
+//		} else {
+//			tweet = new NormalLonelyTweet(text);
+//		}
+		
 		if (tweet.isValid()) {
 			tweets.add(tweet);
 			adapter.notifyDataSetChanged();
