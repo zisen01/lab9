@@ -13,8 +13,8 @@ public class NormalLonelyTweet implements Serializable {
 	public NormalLonelyTweet() {
 	}
 
-	public NormalLonelyTweet(String text) {
-		this.tweetDate = new Date();
+	public NormalLonelyTweet(String text, Date date) {
+		this.tweetDate = date;
 		this.tweetBody = text;
 	}
 
@@ -56,6 +56,6 @@ public class NormalLonelyTweet implements Serializable {
 
 	@Override
 	public String toString() {
-		return getTweetDate() + " | " + getTweetBody();
+		return getTweetDate() + " | " + getTweetBody() ;
 	}
 }
