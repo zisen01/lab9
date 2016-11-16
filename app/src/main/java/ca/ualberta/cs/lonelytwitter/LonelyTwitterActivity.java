@@ -47,15 +47,7 @@ public class LonelyTwitterActivity extends Activity {
 
 		tweet = new NormalLonelyTweet(text, new Date());
 
-//		String text = bodyText.getText().toString();
-//
-//		LonelyTweet tweet;
-//
-//		if (text.contains("*")) {
-//			tweet = new ImportantLonelyTweet(text);
-//		} else {
-//			tweet = new NormalLonelyTweet(text);
-//		}
+		//TODO: use different sub-classes (Normal or Important) based on usage of "*" in the text.
 		
 		if (tweet.isValid()) {
 			tweets.add(tweet);
