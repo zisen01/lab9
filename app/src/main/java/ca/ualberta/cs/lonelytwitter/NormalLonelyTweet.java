@@ -31,10 +31,13 @@ public class NormalLonelyTweet implements Serializable {
 	}
 
 	public void setTweetBody(String tweetBody) {
-		this.tweetBody = tweetBody;
+		if(tweetBody.length()<20){
+			this.tweetBody = tweetBody;
+		}
+
 	}
 
-	private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+	private void writingObject(java.io.ObjectOutputStream out) throws IOException {
 		out.writeObject(tweetDate);
 		out.writeObject(tweetBody);
 	}
